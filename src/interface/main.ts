@@ -3,23 +3,25 @@ import { RecipeList } from "../domain/recipelist.ts";
 
 const btnAdd = document.getElementById("btn-add") as HTMLButtonElement | null;
 const inpName = document.getElementById(
-  "inp-name",
-) as HTMLInputElement | null;
-const inpCategory = document.getElementById(
-  "inp-category",
-) as HTMLSelectElement | null;
+  "inp-name",) as HTMLInputElement | null;
 
+const inpCategory = document.getElementById(
+  "inp-category",) as HTMLSelectElement | null;
+
+
+  const inpdesc = document.getElementById("inp-desc",) as HTMLInputElement | null; 
 const mainRecipeList = new RecipeList();
 
-if (btnAdd && inpName && inpCategory) {
+if (btnAdd && inpName && inpCategory && inpdesc) {
   btnAdd.addEventListener("click", () => {
     const recipesErrorContainer = document.getElementById("add-recipes-error");
     const recipesError = document.getElementById("add-recipes-error-msg");
     try {
       const newRecipe = new Recipe(inpName.value);
       newRecipe.category = inpCategory.value;
+      newRecipe.descripcion = inpdesc.value; 
       mainRecipeList.add(newRecipe);
-      clearInputs(inpName, inpCategory);
+      clearInputs(inpName, inpCategory, inpdesc);
       recipesErrorContainer?.classList.add("d-none");
       loadRecipeList(newRecipe);
       appendAlert(`${newRecipe.name} agregada correctamente!`, "success");
@@ -36,12 +38,15 @@ if (btnAdd && inpName && inpCategory) {
   });
 }
 
+//limpio los campos
 function clearInputs(
   inpNameEl: HTMLInputElement,
   inpCategoryEl: HTMLSelectElement,
+  inpdescEL : HTMLSelectElement,
 ) {
   inpNameEl.value = "";
   inpCategoryEl.selectedIndex = 0;
+  inpdescEL.value ="";
 }
 
 function loadRecipeList(newRecipe: Recipe) {
